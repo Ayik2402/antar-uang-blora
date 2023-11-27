@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Master\SettingWebsiteModel;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class HomeController extends Controller
 {
@@ -122,19 +124,23 @@ class HomeController extends Controller
     }
 
     function wasrvstat(Request $r) {
-        $whitelist = array(
-            '127.0.0.1',
-            '::1'
-        );
+        // $whitelist = array(
+        //     '127.0.0.1',
+        //     '::1'
+        // );
 
-        if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
+        // if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
+        //     return '';
+        // }
+
+        if (Auth::user()->email != 'root@root.root') {
             return '';
         }
 
         $t = $r->type;
         $srvdir = env('WA_SRV_PATH','D:\Develop\Node\wasrv\srv.js');
         if ($t==0) {
-            exec('pm2 status ./srv.js', $output, $retval);
+            exec('pm2 status '.escapeshellarg($srvdir).' 2>&1', $output, $retval);
             // return "Returned with status $retval and output:\n";
             $h = '<pre>';
             foreach ($output as $k => $v) {
@@ -143,7 +149,7 @@ class HomeController extends Controller
             $h .= '</pre>';
             return $h;
         } else if ($t==1) {
-            exec('pm2 start '.escapeshellarg($srvdir).'', $output, $retval);
+            exec('pm2 start '.escapeshellarg($srvdir).' 2>&1', $output, $retval);
             $h = '<pre>';
             foreach ($output as $k => $v) {
                 $h .= '<br>'.str_replace('↺', 'r', $v);
@@ -151,7 +157,7 @@ class HomeController extends Controller
             $h .= '</pre>';
             return $h;
         } else if ($t==2) {
-            exec('pm2 restart '.escapeshellarg($srvdir).' --update-env', $output, $retval);
+            exec('pm2 restart '.escapeshellarg($srvdir).' --update-env 2>&1', $output, $retval);
             $h = '<pre>';
             foreach ($output as $k => $v) {
                 $h .= '<br>'.str_replace('↺', 'r', $v);
@@ -159,7 +165,7 @@ class HomeController extends Controller
             $h .= '</pre>';
             return $h;
         } else if ($t==3) {
-            exec('pm2 stop '.escapeshellarg($srvdir).'', $output, $retval);
+            exec('pm2 stop '.escapeshellarg($srvdir).' 2>&1', $output, $retval);
             $h = '<pre>';
             foreach ($output as $k => $v) {
                 $h .= '<br>'.str_replace('↺', 'r', $v);
@@ -169,5 +175,26 @@ class HomeController extends Controller
         } else {
             return 'Command error';
         }
+    }
+
+    public function getwacntstat(Request $r) {
+        if (Auth::user()->email != 'root@root.root') {
+            return '';
+        }
+
+        $response = Http::get(env('WASRVURL','http://localhost:3333')."/statcheck");
+        return $response;
+    }
+
+    public function sendmessage(Request $r) {
+        if (Auth::user()->email != 'root@root.root') {
+            return '';
+        }
+
+        $response = Http::get(env('WASRVURL','http://localhost:3333')."/sendmsg", [
+            'number' => $r->number,
+            'message' => $r->message,
+        ]);
+        return $response;
     }
 }
