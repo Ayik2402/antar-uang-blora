@@ -43,4 +43,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('register-nasabah', RegisternasabahController::class);
     Route::get('/getjenistabungan', [JenistabunganController::class, 'getjenistabungan']);
     Route::get('/sendemail/{id}', [RegisternasabahController::class, 'kirimemailsekarang']);
+    Route::get('/wastat', function () {
+        return view('pages.wastat.wastat');
+    });
+    Route::get('/wasrvstat', [App\Http\Controllers\HomeController::class, 'wasrvstat']);
 });

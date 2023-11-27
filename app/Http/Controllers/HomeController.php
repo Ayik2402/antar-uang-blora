@@ -120,4 +120,54 @@ class HomeController extends Controller
         return view('pages.dashboard.dash');
         // return view('home');
     }
+
+    function wasrvstat(Request $r) {
+        $whitelist = array(
+            '127.0.0.1',
+            '::1'
+        );
+
+        if(!in_array($_SERVER['REMOTE_ADDR'], $whitelist)){
+            return '';
+        }
+
+        $t = $r->type;
+        $srvdir = env('WA_SRV_PATH','D:\Develop\Node\wasrv\srv.js');
+        if ($t==0) {
+            exec('pm2 status ./srv.js', $output, $retval);
+            // return "Returned with status $retval and output:\n";
+            $h = '<pre>';
+            foreach ($output as $k => $v) {
+                $h .= '<br>'.str_replace('↺', 'r', $v);
+            }
+            $h .= '</pre>';
+            return $h;
+        } else if ($t==1) {
+            exec('pm2 start '.escapeshellarg($srvdir).'', $output, $retval);
+            $h = '<pre>';
+            foreach ($output as $k => $v) {
+                $h .= '<br>'.str_replace('↺', 'r', $v);
+            }
+            $h .= '</pre>';
+            return $h;
+        } else if ($t==2) {
+            exec('pm2 restart '.escapeshellarg($srvdir).' --update-env', $output, $retval);
+            $h = '<pre>';
+            foreach ($output as $k => $v) {
+                $h .= '<br>'.str_replace('↺', 'r', $v);
+            }
+            $h .= '</pre>';
+            return $h;
+        } else if ($t==3) {
+            exec('pm2 stop '.escapeshellarg($srvdir).'', $output, $retval);
+            $h = '<pre>';
+            foreach ($output as $k => $v) {
+                $h .= '<br>'.str_replace('↺', 'r', $v);
+            }
+            $h .= '</pre>';
+            return $h;
+        } else {
+            return 'Command error';
+        }
+    }
 }
