@@ -79,7 +79,7 @@
     function getstat() {
             $.ajax({
                 type: "GET",
-                url: "http://localhost:3333/statcheck",
+                url: "/statcheck",
                 xhr: function(){
                     var xhr = new window.XMLHttpRequest();
                     xhr.addEventListener("error", function(evt){
@@ -100,6 +100,7 @@
                     return xhr;
                 },
                 success: function (response) {
+                    response = response?JSON.parse(response):response;
                     var rd = response.ready;
                     var qr = response.qr;
                     var ct = response.client;
@@ -125,7 +126,7 @@
                         $('#testmessagecontainer').hide();
                     }
                     if (rd==0 && qr==null) {
-                        $('#qrdisplay').html('Generating QR...');                            
+                        $('#qrdisplay').html('Loading ...');                            
                     } else if (rd == 9) {
                         $('#qrdisplay').html('Syncing ...');
                     }
@@ -167,12 +168,13 @@
             } else {
                 $.ajax({
                     type: "GET",
-                    url: "http://localhost:3333/sendmsg",
+                    url: "/sendmsg",
                     data: {
                         number: n,
                         message: m,
                     },
                     success: function (response) {
+                        // response = response?JSON.parse(response):response;
                         alert(response);
                     }
                 });
@@ -181,14 +183,39 @@
     }
 
     function checkwasrvstat(t) {
-        $('#wasrvstctr').html('Loading....');
-        $.ajax({
-            type: "get",
-            url: "/wasrvstat?type="+t,
-            success: function (response) {
-                $('#wasrvstctr').html(response);
-            }
-        });
+        if (t==2 || t==3) {
+            Swal.fire({
+                title: 'Apakah anda yakin?',
+                text: "Koneksi akan terputus!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya'
+            }).then((cf) => {
+                if (cf.isConfirmed) {
+                    $('#wasrvstctr').html('Loading....');
+                    $.ajax({
+                        type: "get",
+                        url: "/wasrvstat?type="+t,
+                        success: function (response) {
+                            $('#wasrvstctr').html(response);
+                        }
+                    });
+                } else {
+                    Swal.fire("Batal!");
+                }
+            });
+        } else {
+            $('#wasrvstctr').html('Loading....');
+            $.ajax({
+                type: "get",
+                url: "/wasrvstat?type="+t,
+                success: function (response) {
+                    $('#wasrvstctr').html(response);
+                }
+            });
+        }
     }
 
     function numonlynum() {

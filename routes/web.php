@@ -46,5 +46,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/wastat', function () {
         return view('pages.wastat.wastat');
     });
+    
     Route::get('/wasrvstat', [App\Http\Controllers\HomeController::class, 'wasrvstat']);
+    Route::get('/statcheck', [App\Http\Controllers\HomeController::class, 'getwacntstat']);
+    Route::get('/sendmsg', [App\Http\Controllers\HomeController::class, 'sendmessage']);
 });
