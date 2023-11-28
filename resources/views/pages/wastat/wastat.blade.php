@@ -150,11 +150,12 @@
                     }
                     $('#wapushname').html(wa);
                     $('#lastchecked').html(new Date().toLocaleString('id-ID'))
-                    setTimeout(() => {
-                        getstat();
-                    }, 1300);
                 }
-            })
+            }).always(function (dataOrjqXHR, textStatus, jqXHRorErrorThrown) {
+                setTimeout(() => {
+                    getstat();
+                }, 1300);
+            });
     }
 
     function sendtestmessage() {
