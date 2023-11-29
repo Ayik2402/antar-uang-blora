@@ -61,7 +61,12 @@
                                         </div>
                                         <div class="col-lg-4">
                                             <label for="form-control">No. Handphone</label>
-                                            <input oninput="numberphone()" type="text" class="form-control" id="hp" placeholder="Masukan nomor handphone">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">+62</span>
+                                                </div>
+                                                <input oninput="numberphone()" type="text" class="form-control" id="hp" placeholder="8123xxxxx">
+                                            </div>
                                         </div>
                                     </div>
 
@@ -108,7 +113,7 @@
                                     <td>{{$value->tabungan}}</td>
                                     <td>{{$value->nama}}</td>
                                     <td>{{$value->email}}</td>
-                                    <td>{{$value->no_hp}}</td>
+                                    <td>(+62){{$value->no_hp}}</td>
                                     <td>
                                         @if($value->aktivasi == 0)
                                         <span class="badge badge-info bx-tada-hover text-uppercase">Belum aktivasi akun</span>
@@ -249,6 +254,9 @@
 
     function numberphone() {
         var nominal = $('#hp').val().replace(/\D/g, "");
+        if (nominal[0]=='0') {
+            nominal = nominal.substring(1);
+        }
         $('#hp').val(nominal);
     }
 
