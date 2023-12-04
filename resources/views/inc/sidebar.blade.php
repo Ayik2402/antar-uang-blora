@@ -50,6 +50,14 @@
                 </a>
             </li>
             <li class="menu">
+                <a href="/saldo" aria-expanded="false" class="dropdown-toggle">
+                    <div class="">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 9h8v6h-8z"></path><path d="M20 3H5C3.346 3 2 4.346 2 6v12c0 1.654 1.346 3 3 3h15c1.103 0 2-.897 2-2v-2h-8c-1.103 0-2-.897-2-2V9c0-1.103.897-2 2-2h8V5c0-1.103-.897-2-2-2z"></path></svg>
+                        <span>Saldo</span>
+                    </div>
+                </a>
+            </li>
+            <li class="menu">
                 <a href="/wastat" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);">
@@ -179,68 +187,3 @@
     </nav>
 
 </div>
-
-
-
-
-
-{{-- <ul class="navbar-nav bg-gradient-primary fixed sidebar sidebar-dark accordion" id="accordionSidebar">
-
-    <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/home">
-        <div class="sidebar-brand-icon">
-            <i><img src="{{asset('admin-bootstrap/img/Group 1.png')}}" alt=""></i>
-</div>
-<div class="sidebar-brand-text mx-2" style="font-size: 12px">Akarindo Bank</div>
-</a>
-
-
-<!-- Nav Item - Dashboard -->
-<li class="nav-item active">
-    <a class="nav-link" href="/home">
-        <i class="fas fa-fw fa-tachometer-alt"></i>
-        <span>Dashboard</span></a>
-</li>
-
-
-<!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
-        <i class="fas fa-fw fa-folder"></i>
-        <span>Master</span>
-    </a>
-    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/daftar-bank">Bank</a>
-            <a class="collapse-item" href="/daftar-rekening">Rekening bank</a>
-            <a class="collapse-item" href="#">Paket data</a>
-            <a class="collapse-item" href="/daftar-pulsa">Pulsa</a>
-            <a class="collapse-item" href="#">Token listrik</a>
-        </div>
-    </div>
-</li>
-
-
-<!-- Nav Item - Pages Collapse Menu -->
-<li class="nav-item">
-    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="true" aria-controls="collapsePages">
-        <i class="fas fa-fw fa-folder"></i>
-        <span>Transfer Uang</span>
-    </a>
-    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-            <a class="collapse-item" href="/transfer-pending">Transfer Pending</a>
-            <a class="collapse-item" href="/transfer-ditolak">Transfer Ditolak</a>
-            <a class="collapse-item" href="/approved">Approved</a>
-            <a class="collapse-item" href="/rekap-transfer">Rekap Transfer</a>
-        </div>
-    </div>
-</li>
-
-
-<!-- Sidebar Toggler (Sidebar) -->
-<div class="text-center d-none d-md-inline">
-    <button class="rounded-circle border-0" id="sidebarToggle"></button>
-</div>
-
-</ul> --}}
