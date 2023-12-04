@@ -68,6 +68,24 @@ $(document).ready(function() {
         drawCallback: function () { $('.dataTables_paginate > .pagination').addClass(' pagination-style-13 pagination-bordered'); }
     } );
 
+	$('#nonpaginate').DataTable( {
+        "dom": "<'dt--top-section'<'row'<'col-12 col-sm-6 d-flex justify-content-sm-start justify-content-center'l><'col-12 col-sm-6 d-flex justify-content-sm-end justify-content-center mt-sm-0 mt-3'f>>>" +
+    "<'table-responsive'tr>" ,
+    // "<'dt--bottom-section d-sm-flex justify-content-sm-between text-center'<'dt--pages-count  mb-sm-0 mb-3'i><'dt--pagination'p>>",
+    //     "oLanguage": {
+    //         "oPaginate": { "sPrevious": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-left"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>', "sNext": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>' },
+    //         "sInfo": "Showing page _PAGE_ of _PAGES_",
+    //         "sSearch": '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-search"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>',
+    //         "sSearchPlaceholder": "Search...",
+    //        "sLengthMenu": "Results :  _MENU_",
+    //     },
+        "order": [[ 0, "asc" ]],
+        "stripeClasses": [],
+        "lengthMenu": [10, 20, 30, 50],
+        "pageLength": 10,
+        drawCallback: function () { $('.dataTables_paginate > .pagination').addClass(' pagination-style-13 pagination-bordered'); }
+    } );
+
     var ss = $(".basic").select2({
         tags: true,
     });
@@ -96,185 +114,58 @@ function globalgetactivemenu() {
     $('a[href="' + pathNow + '"]').parent('li').parent('ul').addClass('show');
 }
 
-function simpankeperluan() {
-    
-    var keperluan = $("#keperluan").val()
-    var uuid = $("#uuid").val()
-    if (uuid == '') {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-    
-        jQuery.ajax({
-            url: "/master-keperluan",
-            method: 'post',
-            data: {
-                keperluan: keperluan,
-                uuid:''
-            },
-            success: function(result) {
-                $("#keperluan").val('')
-                $("#modelId").modal("hide");
-                Swal.fire({
-                    icon: 'success',
-                    title:  result.msg,
-                    showConfirmButton: true,
-                    timer: 1500
-                  }).then(function(){
-                    location.reload();
-                })
-            },
-            error: function(jqXhr, json, errorThrown) { // this are default for ajax errors 
-                var errors = jqXhr.responseJSON;
-                $.each(errors['errors'], function(index, value) {
-                    $("#keperluan").addClass( "is-invalid" );
-                    $("#erkeperluan").text( value );
-                });
-    
-            }
-        })
-    }else{
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-    
-        jQuery.ajax({
-            url: "/master-keperluan/" + uuid,
-            method: 'put',
-            data: {
-                keperluan: keperluan,
-                uuid:uuid
-            },
-            success: function(result) {
-                $("#keperluan").val('')
-                $("#modelId").modal("hide");
-                Swal.fire({
-                    icon: 'success',
-                    title:  result.msg,
-                    showConfirmButton: true,
-                    timer: 1500
-                  }).then(function(){
-                    location.reload();
-                })
-            },
-            error: function(jqXhr, json, errorThrown) { // this are default for ajax errors 
-                var errors = jqXhr.responseJSON;
-                $.each(errors['errors'], function(index, value) {
-                    $("#keperluan").addClass( "is-invalid" );
-                    $("#erkeperluan").text( value );
-                });
-    
-            }
-        })
+var datatransaksimanual = [];
+function checkall() {
+    // console.log($('#flexCheckDefault').val())
+    var mutasirekening = JSON.parse($('#tranb').text())
+    var valueuncheck = $('#flexCheckDefault').val();
+    console.log(mutasirekening)
+    var valuecheck = 0;
 
+    var datatransaksi = [];
+    if (valueuncheck == 0) {
+        $('#flexCheckDefault').prop('checked', true).val(1);
+        valuecheck = $('#flexCheckDefault').val();
+        var nourutmutasirekening = 0;
+        for (let i = 0; i < mutasirekening.length; i++) {
+            const elm = mutasirekening[i];
+            nourutmutasirekening += 1;
+            datatransaksi.push(elm.uuid);
+            $('#flexCheckDefaults' + nourutmutasirekening).prop('checked', true);
+        }
+
+        $('#trts').val(datatransaksi)
+    } else {
+        $('#flexCheckDefault').prop('checked', false).val(0);
+        var nourutmutasirekening = 0;
+        for (let i = 0; i < mutasirekening.length; i++) {
+            const elm = mutasirekening[i];
+            nourutmutasirekening += 1;
+            $('#flexCheckDefaults' + nourutmutasirekening).prop('checked', false);
+        }
+
+        $('#trts').val('')
     }
 }
-function showmodalprofile(uuid, public_id) {
-    $("#pegawai_id").val(uuid)
-    $("#public_id").val(public_id)
-    $("#uploadprofile").modal("show");
-    $("#profile").change(function(){
-        alert("File berhasil dipilih");
-    });
-    
-}
-function simpanprofile() {
-    var pegawai_id = $("#pegawai_id").val()
-    var public_id = $("#public_id").val()
-    // var profile = $("#profile").val();
-    var myFile = $('#profile').prop('files');
-    console.log(myFile[0])
-    var formData = new FormData();
-    
-    formData.append("profile", myFile[0]);
-    formData.append("pegawai_id", pegawai_id);
-    formData.append("public_id", public_id);
 
-    $.ajaxSetup({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+function checksesama(no) {
+    var falsecheck = '';
+        var truecheck = $('#flexCheckDefaults' + no).data('check');
+        if (truecheck == false) {
+            var ab = $('#flexCheckDefaults' + no).data('check', true);
+            falsecheck = ab.data('check')
+            $('#flexCheckDefaults' + no).prop('checked', true);
+            var valuesesama = $('#flexCheckDefaults' + no).val();
+            // var datatransaksi = [];
+            datatransaksimanual.push(valuesesama);
+            $('#trts').val(datatransaksimanual)
+        } else {
+            var ab = $('#flexCheckDefaults' + no).data('check', false);
+            truecheck = ab.data('check')
+            $('#flexCheckDefaults' + no).prop('checked', false);
+            var valuesesama = $('#flexCheckDefaults' + no).val();
+
+            // datatransaksi.push(valuesesama);
+            $('#trts').val('')
         }
-    });
-
-    jQuery.ajax({
-        url: "/upload-profile",
-        method: 'post',
-        processData: false,
-        contentType: false,
-        cache: false,
-        data: formData,
-        enctype: 'multipart/form-data',
-        success: function(result) {
-            console.log(result)
-            $("#pegawai_id").val('')
-            $("#public_id").val('')
-            $("#uploadprofile").modal("hide");
-            $("#profile").val(null);
-            $("#profile").removeClass( "is-invalid" );
-            $("#eruploadprofile").text( '' );
-            Swal.fire({
-                icon: 'success',
-                title:  result.msg,
-                showConfirmButton: true,
-                timer: 1500
-              }).then(function(){
-                location.reload();
-            })
-        },
-        error: function(jqXhr, json, errorThrown) { // this are default for ajax errors 
-            var errors = jqXhr.responseJSON;
-            $.each(errors['errors'], function(index, value) {
-                $("#profile").addClass( "is-invalid" );
-                $("#eruploadprofile").text( value );
-            });
-
-        }
-    })
-}
-function closemodaluploadprofile() {
-    $("#pegawai_id").val('')
-    $("#public_id").val('')
-    $("#uploadprofile").modal("hide");
-    $("#profile").val(null);
-    $("#profile").removeClass( "is-invalid" );
-    $("#eruploadprofile").text( '' );
-}
-
-
-function currencygol() {
-    $("#crgl").text(new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0
-    })
-    .format($('#tjgl').val())
-    .trim())
-
-    $("#crjbt").text(new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0
-    })
-    .format($('#gpkjbt').val())
-    .trim())
-    
-    $("#crtj").text(new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0
-    })
-    .format($('#tjjb').val())
-    .trim())
-    
-    $("#crpd").text(new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        maximumFractionDigits: 0
-    })
-    .format($('#tjpd').val())
-    .trim())
 }

@@ -2,8 +2,8 @@
 <script src="{{asset('admin-bootstrap/vendor/chart.js/Chart.min.js')}}"></script>
 
 <!-- Page level custom scripts -->
-<script src="{{asset('admin-bootstrap/js/demo/chart-area-demo.js')}}"></script>
-<script src="{{asset('admin-bootstrap/js/demo/chart-pie-demo.js')}}"></script>
+<!-- <script src="{{asset('admin-bootstrap/js/demo/chart-area-demo.js')}}"></script>
+<script src="{{asset('admin-bootstrap/js/demo/chart-pie-demo.js')}}"></script> -->
 <script src="{{asset('admin/assets/js/users/account-settings.js')}}"></script>
 <script src="{{asset('admin/plugins/dropify/dropify.min.js')}}"></script>
 <script src="{{asset('admin/plugins/blockui/jquery.blockUI.min.js')}}"></script>
@@ -21,17 +21,17 @@
 <script src="{{asset('admin/blade.js')}}"></script>
 <script src="{{asset('admin/plugins/input-mask/jquery.inputmask.bundle.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/components/ui-accordions.js')}}"></script>
-<script src="{{asset('admin/plugins/apex/apexcharts.min.js')}}"></script>
+<!-- <script src="{{asset('admin/plugins/apex/apexcharts.min.js')}}"></script> -->
 <!-- Leaflet JS -->
 <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
-<script src="{{asset('admin/assets/js/apps/contact.js')}}"></script>
+<!-- <script src="{{asset('admin/assets/js/apps/contact.js')}}"></script> -->
 <script src="{{asset('admin/plugins/fullcalendar/moment.min.js')}}"></script>
 <script src="{{asset('admin/plugins/flatpickr/flatpickr.js')}}"></script>
 <script src="{{asset('admin/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/authentication/form-1.js')}}"></script>
-<script src="{{asset('admin/assets/js/apps/invoice-preview.js')}}"></script>
-<script src="{{asset('admin/plugins/file-upload/file-upload-with-preview.min.js')}}"></script>
-<script src="{{asset('admin/plugins/apex/apexcharts.min.js')}}"></script>
+<!-- <script src="{{asset('admin/assets/js/apps/invoice-preview.js')}}"></script> -->
+<!-- <script src="{{asset('admin/plugins/file-upload/file-upload-with-preview.min.js')}}"></script> -->
+<!-- <script src="{{asset('admin/plugins/apex/apexcharts.min.js')}}"></script> -->
 <script src="{{asset('admin/assets/js/dashboard/dash_1.js')}}"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 
