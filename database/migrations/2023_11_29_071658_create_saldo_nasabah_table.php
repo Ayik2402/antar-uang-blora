@@ -19,6 +19,7 @@ return new class extends Migration
             $table->datetime('last_update');
             $table->double('saldo');
             $table->double('mengendap')->nullable();
+            $table->uuid('updater');
             $table->timestamps();
         });
         DB::statement(

@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->integer('type')->default(0)->comment('0:Import;1:Manual;');
             $table->datetime('waktu');
+            $table->uuid('updater');
             $table->timestamps();
         });
     }

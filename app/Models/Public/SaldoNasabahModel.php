@@ -15,5 +15,6 @@ class SaldoNasabahModel extends Model
         'last_update',
         'saldo',
         'mengendap',
+        'updater',
     ];
 }

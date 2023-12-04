@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Public\NasabahModel;
 use App\Models\Public\SaldoNasabahModel;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 
 class SaldaoNasabahController extends Controller
@@ -32,13 +33,15 @@ class SaldaoNasabahController extends Controller
         return view('pages.saldo.saldo', $data);
     }
 
-    function create(Request $r) {
-        SaldoNasabahModel::updateOrCreate(['uuid'=>$r->uuid],[
-            'no_rekening' => $r->no_rekening,
+    function store(Request $r) {
+        // return $r->all();
+        SaldoNasabahModel::updateOrCreate(['nasabah_id'=>$r->nasabah_id],[
+            'no_rekening' => $r->norek,
             'nasabah_id' => $r->nasabah_id,
             'last_update' => date('Y-m-d H:i:s'),
             'saldo' => $r->saldo,
             'mengendap' => $r->mengendap,
+            'updater' => Auth::user()->uuid,
         ]);
         return redirect('/saldo');
     }
