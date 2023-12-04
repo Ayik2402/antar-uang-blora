@@ -7,6 +7,7 @@ use App\Http\Controllers\Web\DaftarPulsaController;
 use App\Http\Controllers\Web\DaftarRekeningBankController;
 use App\Http\Controllers\Web\JenistabunganController;
 use App\Http\Controllers\Web\RegisternasabahController;
+use App\Http\Controllers\Web\SaldaoNasabahController;
 use App\Http\Controllers\Web\SettingwebController;
 use App\Http\Controllers\Web\TokenListrikController;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/importfiledaftarbank', [DaftarBankController::class, 'importfiledaftarbank']);
     Route::resource('jenis-tabungan', JenistabunganController::class);
     Route::resource('register-nasabah', RegisternasabahController::class);
+    Route::resource('saldo', SaldaoNasabahController::class);
     Route::get('/getjenistabungan', [JenistabunganController::class, 'getjenistabungan']);
     Route::get('/sendemail/{id}', [RegisternasabahController::class, 'kirimemailsekarang']);
     Route::get('/wastat', function () {
