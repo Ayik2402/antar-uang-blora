@@ -6,6 +6,8 @@ use App\Http\Controllers\Web\DaftarBankController;
 use App\Http\Controllers\Web\DaftarPulsaController;
 use App\Http\Controllers\Web\DaftarRekeningBankController;
 use App\Http\Controllers\Web\JenistabunganController;
+use App\Http\Controllers\Web\MutasirekeningController;
+use App\Http\Controllers\Web\PengajuantransferController;
 use App\Http\Controllers\Web\RegisternasabahController;
 use App\Http\Controllers\Web\SaldaoNasabahController;
 use App\Http\Controllers\Web\SettingwebController;
@@ -48,7 +50,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/wastat', function () {
         return view('pages.wastat.wastat');
     });
-    
+    Route::resource('mutasi-rekening', MutasirekeningController::class);
+    Route::post('/hapussemuamutasi', [MutasirekeningController::class, 'hapussemuamutasi']);
+    Route::get('/data-transfer', [PengajuantransferController::class, 'datapengajuantramsfer']);
     Route::get('/wasrvstat', [App\Http\Controllers\HomeController::class, 'wasrvstat']);
     Route::get('/statcheck', [App\Http\Controllers\HomeController::class, 'getwacntstat']);
     Route::get('/sendmsg', [App\Http\Controllers\HomeController::class, 'sendmessage']);
