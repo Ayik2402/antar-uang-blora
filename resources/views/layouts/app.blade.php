@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
     <title>ADMIN KLIK BLORA ARTHA</title>
-    <!-- <link rel="icon" type="image/x-icon" href="{{asset('/logo/Frame1.png')}}" /> -->
+    <link rel="icon" type="image/x-icon" href="{{asset('admin/assets/img/favklik.png')}}" />
     @vite(['resources/sass/app.scss'])
     <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700" rel="stylesheet">
     <link href="{{asset('admin/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet" type="text/css" />

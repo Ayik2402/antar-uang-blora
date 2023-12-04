@@ -46,11 +46,11 @@
                                     <p class="d-inline-block">Show Password</p>
                                     <label class="switch">
                                         <input type="checkbox" id="toggle-password" class="d-none">
-                                        <span style="background-color:#0F31FB !important" class="slider round"></span>
+                                        <span style="background-color:#043BA0 !important" class="slider round"></span>
                                     </label>
                                 </div>
                                 <div class="field-wrapper">
-                                    <button type="submit" style="background:#0F31FB !important; border-color:#0F31FB !important; box-shadow: 0 10px 20px -10px #0F31FB;" class="btn btn-primary">Masuk</button>
+                                    <button type="submit" style="background:#043BA0 !important; border-color:#043BA0 !important; box-shadow: 0 10px 20px -10px #043BA0;" class="btn btn-primary">Masuk</button>
                                 </div>
 
                             </div>

@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <title>ADMIN KLIK BLORA ARTHA</title>
-<link rel="icon" type="image/x-icon" href="{{asset('admin/assets/img/favicon.ico')}}" />
+<link rel="icon" type="image/x-icon" href="{{asset('admin/assets/img/favklik.png')}}" />
 <link href="{{asset('admin/assets/css/loader.css')}}" rel="stylesheet" type="text/css" />
 <script src="{{asset('admin/assets/js/loader.js')}}"></script>
 @vite(['resources/sass/app.scss'])
