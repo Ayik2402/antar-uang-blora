@@ -14,7 +14,7 @@
         <div class="col-xl-4 col-lg-12 col-md-12 col-sm-12 col-12 layout-spacing">
             <div class="widget widget-chart-two">
                 <div class="widget-heading">
-                    <h5 class="">Status transaksi</h5>
+                    <h5 class="">Status Transaksi Bulan {{ \Carbon\Carbon::now()->isoFormat('MMMM YYYY') }}</h5>
                 </div>
                 <div class="widget-content">
                     <div id="chart-two" class=""></div>
@@ -198,7 +198,7 @@
                     //     }
                     // },
                     title: {
-                        text: 'Transaksi per bulan',
+                        text: 'Transaksi Per Bulan',
                         align: 'left',
                         margin: 27,
                         offsetX: 0,
