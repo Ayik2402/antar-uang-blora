@@ -132,6 +132,7 @@ class HomeController extends Controller
             ->whereNull('public.transfer_antar_rekening.deleted_at')
             ->whereDate('public.transfer_antar_rekening.created_at', '>=', $data['start'])
             ->whereDate('public.transfer_antar_rekening.created_at', '<=', $data['end'])
+            ->orderBy('public.transfer_antar_rekening.status_transaksi', 'asc')
             // ->whereIn('public.transfer_antar_rekening.status_transaksi', [1, 2])
             ->get(['public.transfer_antar_rekening.*', 'public.data_nasabah.nama as nasabah', 'public.data_nasabah.norek']);
         $data['tfbnk'] = DB::table('public.transfer_antar_bank')
@@ -140,6 +141,7 @@ class HomeController extends Controller
             ->whereNull('public.transfer_antar_bank.deleted_at')
             ->whereDate('public.transfer_antar_bank.created_at', '>=', $data['start'])
             ->whereDate('public.transfer_antar_bank.created_at', '<=', $data['end'])
+            ->orderBy('public.transfer_antar_bank.status_transaksi', 'asc')
 
             // ->whereIn('public.transfer_antar_bank.status_transaksi', [1, 2])
             ->get(['public.transfer_antar_bank.*', 'public.data_nasabah.nama as nasabah', 'master.daftar_bank.bank', 'public.data_nasabah.norek']);

@@ -30,7 +30,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-hover" width="100%" id="default-ordering">
+                        <table class="table table-hover" width="100%" id="datatf">
                             <thead>
                                 <tr>
                                     <th>Tanggal</th>
