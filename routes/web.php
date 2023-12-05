@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('mutasi-rekening', MutasirekeningController::class);
     Route::post('/hapussemuamutasi', [MutasirekeningController::class, 'hapussemuamutasi']);
     Route::get('/data-transfer', [PengajuantransferController::class, 'datapengajuantramsfer']);
+    Route::post('/updatetransaksi', [PengajuantransferController::class, 'updatetransaksinasabah']);
     Route::get('/wasrvstat', [App\Http\Controllers\HomeController::class, 'wasrvstat']);
     Route::get('/statcheck', [App\Http\Controllers\HomeController::class, 'getwacntstat']);
     Route::get('/sendmsg', [App\Http\Controllers\HomeController::class, 'sendmessage']);
