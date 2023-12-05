@@ -26,7 +26,7 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
 
 
@@ -118,12 +118,40 @@ class HomeController extends Controller
         // $data['transfer_selesai'] =  $totalselesai;
         // $data['transfer_batal'] =  $totalbatal;
         // return $data;
+        $data['start'] = $request->start;
+        $data['end'] = $request->end;
 
-        return view('pages.dashboard.dash');
+        if (!$request->start) {
+            $data['start'] = Carbon::now()->subDays(7)->format('Y-m-d');
+        }
+        if (!$request->end) {
+            $data['end'] = Carbon::now()->format('Y-m-d');
+        }
+        $data['tfsesama'] = DB::table('public.transfer_antar_rekening')
+            ->leftJoin('public.data_nasabah', 'public.data_nasabah.uuid', '=', 'public.transfer_antar_rekening.nasabah_id')
+            ->whereNull('public.transfer_antar_rekening.deleted_at')
+            ->whereDate('public.transfer_antar_rekening.created_at', '>=', $data['start'])
+            ->whereDate('public.transfer_antar_rekening.created_at', '<=', $data['end'])
+            // ->whereIn('public.transfer_antar_rekening.status_transaksi', [1, 2])
+            ->get(['public.transfer_antar_rekening.*', 'public.data_nasabah.nama as nasabah', 'public.data_nasabah.norek']);
+        $data['tfbnk'] = DB::table('public.transfer_antar_bank')
+            ->leftJoin('public.data_nasabah', 'public.data_nasabah.uuid', '=', 'public.transfer_antar_bank.nasabah_id')
+            ->leftJoin('master.daftar_bank', 'master.daftar_bank.uuid', '=', 'public.transfer_antar_bank.bank_id')
+            ->whereNull('public.transfer_antar_bank.deleted_at')
+            ->whereDate('public.transfer_antar_bank.created_at', '>=', $data['start'])
+            ->whereDate('public.transfer_antar_bank.created_at', '<=', $data['end'])
+
+            // ->whereIn('public.transfer_antar_bank.status_transaksi', [1, 2])
+            ->get(['public.transfer_antar_bank.*', 'public.data_nasabah.nama as nasabah', 'master.daftar_bank.bank', 'public.data_nasabah.norek']);
+
+
+
+        return view('pages.dashboard.dash', $data);
         // return view('home');
     }
 
-    function wasrvstat(Request $r) {
+    function wasrvstat(Request $r)
+    {
         // $whitelist = array(
         //     '127.0.0.1',
         //     '::1'
@@ -138,37 +166,37 @@ class HomeController extends Controller
         }
 
         $t = $r->type;
-        $srvdir = env('WA_SRV_PATH','D:\Develop\Node\wasrv\srv.js');
-        if ($t==0) {
-            exec('pm2 status '.escapeshellarg($srvdir).' 2>&1', $output, $retval);
+        $srvdir = env('WA_SRV_PATH', 'D:\Develop\Node\wasrv\srv.js');
+        if ($t == 0) {
+            exec('pm2 status ' . escapeshellarg($srvdir) . ' 2>&1', $output, $retval);
             // return "Returned with status $retval and output:\n";
             $h = '<pre>';
             foreach ($output as $k => $v) {
-                $h .= '<br>'.str_replace('↺', 'r', $v);
+                $h .= '<br>' . str_replace('↺', 'r', $v);
             }
             $h .= '</pre>';
             return $h;
-        } else if ($t==1) {
-            exec('pm2 start '.escapeshellarg($srvdir).' 2>&1', $output, $retval);
+        } else if ($t == 1) {
+            exec('pm2 start ' . escapeshellarg($srvdir) . ' 2>&1', $output, $retval);
             $h = '<pre>';
             foreach ($output as $k => $v) {
-                $h .= '<br>'.str_replace('↺', 'r', $v);
+                $h .= '<br>' . str_replace('↺', 'r', $v);
             }
             $h .= '</pre>';
             return $h;
-        } else if ($t==2) {
-            exec('pm2 restart '.escapeshellarg($srvdir).' --update-env 2>&1', $output, $retval);
+        } else if ($t == 2) {
+            exec('pm2 restart ' . escapeshellarg($srvdir) . ' --update-env 2>&1', $output, $retval);
             $h = '<pre>';
             foreach ($output as $k => $v) {
-                $h .= '<br>'.str_replace('↺', 'r', $v);
+                $h .= '<br>' . str_replace('↺', 'r', $v);
             }
             $h .= '</pre>';
             return $h;
-        } else if ($t==3) {
-            exec('pm2 stop '.escapeshellarg($srvdir).' 2>&1', $output, $retval);
+        } else if ($t == 3) {
+            exec('pm2 stop ' . escapeshellarg($srvdir) . ' 2>&1', $output, $retval);
             $h = '<pre>';
             foreach ($output as $k => $v) {
-                $h .= '<br>'.str_replace('↺', 'r', $v);
+                $h .= '<br>' . str_replace('↺', 'r', $v);
             }
             $h .= '</pre>';
             return $h;
@@ -177,24 +205,96 @@ class HomeController extends Controller
         }
     }
 
-    public function getwacntstat(Request $r) {
+    public function getwacntstat(Request $r)
+    {
         if (Auth::user()->email != 'root@root.root') {
             return '';
         }
 
-        $response = Http::get(env('WASRVURL','http://localhost:3333')."/statcheck");
+        $response = Http::get(env('WASRVURL', 'http://localhost:3333') . "/statcheck");
         return $response;
     }
 
-    public function sendmessage(Request $r) {
+    public function sendmessage(Request $r)
+    {
         if (Auth::user()->email != 'root@root.root') {
             return '';
         }
 
-        $response = Http::get(env('WASRVURL','http://localhost:3333')."/sendmsg", [
+        $response = Http::get(env('WASRVURL', 'http://localhost:3333') . "/sendmsg", [
             'number' => $r->number,
             'message' => $r->message,
         ]);
         return $response;
+    }
+
+    public function chattlinedashboard()
+    {
+        $year = Carbon::now()->year;
+        $totaltfsesama = [];
+        $totaltfantarbank = [];
+        for ($i = 1; $i < 13; $i++) {
+            $xx = DB::table('public.transfer_antar_rekening')
+                ->whereNull('deleted_at')
+                ->whereMonth('created_at', $i)
+                ->whereYear('created_at', $year)
+                ->sum(DB::raw('nominal'));
+            array_push($totaltfsesama, intval($xx));
+
+            $xxs = DB::table('public.transfer_antar_bank')
+                ->whereNull('deleted_at')
+                ->whereMonth('created_at', $i)
+                ->whereYear('created_at', $year)
+                ->sum(DB::raw('jumlah'));
+            array_push($totaltfantarbank, intval($xxs));
+        }
+
+        $pdtfss = DB::table('public.transfer_antar_rekening')
+            ->whereNull('deleted_at')
+            ->where('status_transaksi', 1)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', $year)
+            ->count();
+        $sktfss = DB::table('public.transfer_antar_rekening')
+            ->whereNull('deleted_at')
+            ->where('status_transaksi', 2)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', $year)
+            ->count();
+        $btltfss = DB::table('public.transfer_antar_rekening')
+            ->whereNull('deleted_at')
+            ->where('status_transaksi', 3)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', $year)
+            ->count();
+
+        $pdatfab = DB::table('public.transfer_antar_bank')
+            ->whereNull('deleted_at')
+            ->where('status_transaksi', 1)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', $year)
+            ->count();
+        $skatfab = DB::table('public.transfer_antar_bank')
+            ->whereNull('deleted_at')
+            ->where('status_transaksi', 2)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', $year)
+            ->count();
+        $btlatfab = DB::table('public.transfer_antar_bank')
+            ->whereNull('deleted_at')
+            ->where('status_transaksi', 3)
+            ->whereMonth('created_at', Carbon::now()->month)
+            ->whereYear('created_at', $year)
+            ->count();
+
+        $pending = $pdtfss + $pdatfab;
+        $sukses = $sktfss + $skatfab;
+        $batal = $btltfss + $btlatfab;
+
+        return response()->json([
+            'tfsesama' => $totaltfsesama,
+            'tfantarbank' => $totaltfantarbank,
+            'status' => [$pending, $sukses, $batal]
+        ]);
     }
 }

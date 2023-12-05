@@ -31,7 +31,7 @@
 <script src="{{asset('admin/assets/js/authentication/form-1.js')}}"></script>
 <!-- <script src="{{asset('admin/assets/js/apps/invoice-preview.js')}}"></script> -->
 <!-- <script src="{{asset('admin/plugins/file-upload/file-upload-with-preview.min.js')}}"></script> -->
-<!-- <script src="{{asset('admin/plugins/apex/apexcharts.min.js')}}"></script> -->
+<script src="{{asset('admin/plugins/apex/apexcharts.min.js')}}"></script>
 <script src="{{asset('admin/assets/js/dashboard/dash_1.js')}}"></script>
 <!-- END PAGE LEVEL SCRIPTS -->
 
