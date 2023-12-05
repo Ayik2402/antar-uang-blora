@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::resource('jenis-tabungan', JenistabunganController::class);
     Route::resource('register-nasabah', RegisternasabahController::class);
     Route::resource('saldo', SaldaoNasabahController::class);
+    Route::post('/saldoimport', [SaldaoNasabahController::class, 'import']);
     Route::get('/getjenistabungan', [JenistabunganController::class, 'getjenistabungan']);
     Route::get('/sendemail/{id}', [RegisternasabahController::class, 'kirimemailsekarang']);
     Route::get('/wastat', function () {
