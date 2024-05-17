@@ -12,10 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('public.data_nasabah', function (Blueprint $table) {
+        Schema::create('data_nasabah', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->foreignUuid('tabungan_id')->references('uuid')->on('master.jenis_tabungan')->onDelete('cascade');
+            $table->foreignUuid('tabungan_id')->references('uuid')->on('jenis_tabungan')->onDelete('cascade');
             $table->text('noregister')->nullable();
             $table->string('norek')->nullable();
             $table->string('nama');
@@ -30,9 +30,9 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        DB::statement(
-            'ALTER TABLE public.data_nasabah ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
-        );
+        // DB::statement(
+        //     'ALTER TABLE public.data_nasabah ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
+        // );
     }
 
     /**
@@ -40,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('public.data_nasabah');
+        Schema::dropIfExists('data_nasabah');
     }
 };

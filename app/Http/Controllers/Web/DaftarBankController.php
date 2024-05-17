@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class DaftarBankController extends Controller
 {
@@ -52,6 +53,7 @@ class DaftarBankController extends Controller
             'uuid' => $request->uuid,
         ], [
             'bank' => $request->bank,
+            'uuid' => Str::uuid()
         ]);
 
         return response()->json([
@@ -112,6 +114,7 @@ class DaftarBankController extends Controller
                 foreach ($value as $j => $val) {
                     if ($j > 0) {
                         DaftarBankModel::create([
+                            'uuid' => Str::uuid(),
                             'bank' => $val[0],
                             'status' => 1
                         ]);

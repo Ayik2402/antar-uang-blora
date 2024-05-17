@@ -12,18 +12,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('public.token_send_email', function (Blueprint $table) {
+        Schema::create('token_send_email', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->foreignUuid('nasabah_id')->references('uuid')->on('public.data_nasabah')->onDelete('cascade');
+            $table->foreignUuid('nasabah_id')->references('uuid')->on('data_nasabah')->onDelete('cascade');
             $table->text('token');
             $table->dateTime('hingga');
             $table->timestamps();
         });
 
-        DB::statement(
-            'ALTER TABLE public.token_send_email ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
-        );
+        // DB::statement(
+        //     'ALTER TABLE public.token_send_email ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
+        // );
     }
 
     /**
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('public.token_send_email');
+        Schema::dropIfExists('token_send_email');
     }
 };

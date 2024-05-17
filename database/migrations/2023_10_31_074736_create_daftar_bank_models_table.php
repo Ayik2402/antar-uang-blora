@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('master.daftar_bank', function (Blueprint $table) {
+        Schema::create('daftar_bank', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('bank');
@@ -20,9 +20,9 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-        DB::statement(
-            'ALTER TABLE master.daftar_bank ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
-        );
+        // DB::statement(
+        //     'ALTER TABLE master.daftar_bank ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
+        // );
     }
 
     /**
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('master.daftar_bank');
+        Schema::dropIfExists('daftar_bank');
     }
 };

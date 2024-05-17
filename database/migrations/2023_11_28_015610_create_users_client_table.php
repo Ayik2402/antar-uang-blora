@@ -12,21 +12,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        // DB::statement('CREATE SCHEMA IF NOT EXISTS "master";');
-        // DB::statement('CREATE EXTENSION IF NOT EXISTS "uuid-ossp";');
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('users_client', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
+            $table->foreignUuid('nasabah_id')->nullable()->references('uuid')->on('data_nasabah')->onDelete('cascade');
             $table->string('name');
-            $table->string('email')->unique();
+            $table->string('otp')->nullable();
+            $table->string('email')->unique()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->dateTime('otp_aktif')->nullable();
+            $table->text('tokenhash')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
 
         // DB::statement(
-        //     'ALTER TABLE public.users ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
+        //     'ALTER TABLE public.users_client ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
         // );
     }
 
@@ -35,6 +38,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('users_client');
     }
 };

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class NasabahModel extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = "public.data_nasabah";
+    protected $table = "data_nasabah";
     protected $fillable = [
         'tabungan_id',
         'noregister',
@@ -23,5 +23,6 @@ class NasabahModel extends Model
         'alamat_domisili',
         'same_domisili',
         'tag_bpr',
+        'uuid'
     ];
 }

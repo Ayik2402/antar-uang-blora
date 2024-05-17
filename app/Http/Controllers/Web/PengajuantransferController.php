@@ -21,25 +21,25 @@ class PengajuantransferController extends Controller
         if (!$request->end) {
             $data['end'] = Carbon::now()->format('Y-m-d');
         }
-        $data['tfsesama'] = DB::table('public.transfer_antar_rekening')
-            ->leftJoin('public.data_nasabah', 'public.data_nasabah.uuid', '=', 'public.transfer_antar_rekening.nasabah_id')
-            ->whereNull('public.transfer_antar_rekening.deleted_at')
-            ->whereDate('public.transfer_antar_rekening.created_at', '>=', $data['start'])
-            ->whereDate('public.transfer_antar_rekening.created_at', '<=', $data['end'])
-            ->orderBy('public.transfer_antar_rekening.status_transaksi', 'ASC')
-            // ->whereIn('public.transfer_antar_rekening.status_transaksi', [1, 2])
-            ->get(['public.transfer_antar_rekening.*', 'public.data_nasabah.nama as nasabah', 'public.data_nasabah.norek']);
+        $data['tfsesama'] = DB::table('transfer_antar_rekening')
+            ->leftJoin('data_nasabah', 'data_nasabah.uuid', '=', 'transfer_antar_rekening.nasabah_id')
+            ->whereNull('transfer_antar_rekening.deleted_at')
+            ->whereDate('transfer_antar_rekening.created_at', '>=', $data['start'])
+            ->whereDate('transfer_antar_rekening.created_at', '<=', $data['end'])
+            ->orderBy('transfer_antar_rekening.status_transaksi', 'ASC')
+            // ->whereIn('transfer_antar_rekening.status_transaksi', [1, 2])
+            ->get(['transfer_antar_rekening.*', 'data_nasabah.nama as nasabah', 'data_nasabah.norek']);
 
         // return $data;
-        $data['tfbnk'] = DB::table('public.transfer_antar_bank')
-            ->leftJoin('public.data_nasabah', 'public.data_nasabah.uuid', '=', 'public.transfer_antar_bank.nasabah_id')
-            ->leftJoin('master.daftar_bank', 'master.daftar_bank.uuid', '=', 'public.transfer_antar_bank.bank_id')
-            ->whereNull('public.transfer_antar_bank.deleted_at')
-            ->whereDate('public.transfer_antar_bank.created_at', '>=', $data['start'])
-            ->whereDate('public.transfer_antar_bank.created_at', '<=', $data['end'])
-            ->orderBy('public.transfer_antar_bank.status_transaksi', 'ASC')
-            // ->whereIn('public.transfer_antar_bank.status_transaksi', [1, 2])
-            ->get(['public.transfer_antar_bank.*', 'public.data_nasabah.nama as nasabah', 'master.daftar_bank.bank', 'public.data_nasabah.norek']);
+        $data['tfbnk'] = DB::table('transfer_antar_bank')
+            ->leftJoin('data_nasabah', 'data_nasabah.uuid', '=', 'transfer_antar_bank.nasabah_id')
+            ->leftJoin('daftar_bank', 'daftar_bank.uuid', '=', 'transfer_antar_bank.bank_id')
+            ->whereNull('transfer_antar_bank.deleted_at')
+            ->whereDate('transfer_antar_bank.created_at', '>=', $data['start'])
+            ->whereDate('transfer_antar_bank.created_at', '<=', $data['end'])
+            ->orderBy('transfer_antar_bank.status_transaksi', 'ASC')
+            // ->whereIn('transfer_antar_bank.status_transaksi', [1, 2])
+            ->get(['transfer_antar_bank.*', 'data_nasabah.nama as nasabah', 'daftar_bank.bank', 'data_nasabah.norek']);
 
         // return $data;
         return view('pages.pengajuan.transfer', $data);
@@ -49,29 +49,31 @@ class PengajuantransferController extends Controller
     {
         if ($request->status == 2) {
             if ($request->type == 0) {
-                $nsb = DB::table('public.transfer_antar_rekening')
-                    ->where('public.transfer_antar_rekening.uuid', $request->uuid)->first();
+                $nsb = DB::table('transfer_antar_rekening')
+                    ->where('transfer_antar_rekening.uuid', $request->uuid)->first();
             }
             if ($request->type == 1) {
-                $nsb = DB::table('public.transfer_antar_bank')
-                    ->where('public.transfer_antar_bank.uuid', $request->uuid)->first();
+                $nsb = DB::table('transfer_antar_bank')
+                    ->where('transfer_antar_bank.uuid', $request->uuid)->first();
             }
             if ($nsb) {
                 $sld = SaldoNasabahModel::where('nasabah_id', $nsb->nasabah_id)->first();
                 $trf = $nsb->nominal;
-                if ($request->type == 1) {$trf = $nsb->jumlah;}
-                if ($sld->saldo<$trf) {
+                if ($request->type == 1) {
+                    $trf = $nsb->jumlah;
+                }
+                if ($sld->saldo < $trf) {
                     return response()->json([
                         'msg' => 'Saldo tidak mencukupi'
                     ]);
                 } else {
-                    SaldoNasabahModel::where('nasabah_id', $nsb->nasabah_id)->update(['saldo'=>($sld->saldo-$trf)]);
+                    SaldoNasabahModel::where('nasabah_id', $nsb->nasabah_id)->update(['saldo' => ($sld->saldo - $trf)]);
                 }
             }
         }
         if ($request->type == 0) {
-            DB::table('public.transfer_antar_rekening')
-                ->where('public.transfer_antar_rekening.uuid', $request->uuid)
+            DB::table('transfer_antar_rekening')
+                ->where('transfer_antar_rekening.uuid', $request->uuid)
                 ->update([
                     'status_transaksi' => $request->status
                 ]);
@@ -81,8 +83,8 @@ class PengajuantransferController extends Controller
             ]);
         }
         if ($request->type == 1) {
-            DB::table('public.transfer_antar_bank')
-                ->where('public.transfer_antar_bank.uuid', $request->uuid)
+            DB::table('transfer_antar_bank')
+                ->where('transfer_antar_bank.uuid', $request->uuid)
                 ->update([
                     'status_transaksi' => $request->status
                 ]);

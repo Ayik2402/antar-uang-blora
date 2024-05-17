@@ -22,9 +22,9 @@ return new class extends Migration
             $table->uuid('updater');
             $table->timestamps();
         });
-        DB::statement(
-            'ALTER TABLE saldo_nasabah ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
-        );
+        // DB::statement(
+        //     'ALTER TABLE saldo_nasabah ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
+        // );
     }
 
     /**

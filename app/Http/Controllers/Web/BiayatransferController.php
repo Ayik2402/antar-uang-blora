@@ -7,6 +7,7 @@ use App\Models\Master\BiayatransferModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Str;
 
 class BiayatransferController extends Controller
 {
@@ -49,6 +50,7 @@ class BiayatransferController extends Controller
         BiayatransferModel::updateOrCreate([
             'uuid' => $request->uuid,
         ], [
+            'uuid' => Str::uuid(),
             'nominal' => $request->nominal,
         ]);
 

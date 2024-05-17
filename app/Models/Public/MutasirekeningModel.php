@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class MutasirekeningModel extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = "public.mutasi_rekening";
+    protected $table = "mutasi_rekening";
     protected $fillable = [
         'nasabah_id',
         'tanggal',
@@ -18,5 +18,6 @@ class MutasirekeningModel extends Model
         'debit',
         'kredit',
         'saldo',
+        'uuid'
     ];
 }

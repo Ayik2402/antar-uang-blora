@@ -9,9 +9,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class DaftarBankModel extends Model
 {
     use HasFactory, SoftDeletes;
-    protected $table = "master.daftar_bank";
+    protected $table = "daftar_bank";
     protected $fillable = [
         'bank',
-        'status'
+        'status',
+        'uuid'
     ];
 }

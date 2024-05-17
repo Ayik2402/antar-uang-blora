@@ -15,8 +15,9 @@ class UserAdminSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('public.users')->insert([
+        DB::table('users')->insert([
             'name' => 'Root',
+            'uuid' => Str::uuid(),
             'email' => 'root@root.root',
             'password' => Hash::make('rootADMINsuper321'),
         ]);

@@ -52,12 +52,15 @@
             <li class="menu">
                 <a href="/saldo" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M14 9h8v6h-8z"></path><path d="M20 3H5C3.346 3 2 4.346 2 6v12c0 1.654 1.346 3 3 3h15c1.103 0 2-.897 2-2v-2h-8c-1.103 0-2-.897-2-2V9c0-1.103.897-2 2-2h8V5c0-1.103-.897-2-2-2z"></path></svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);">
+                            <path d="M14 9h8v6h-8z"></path>
+                            <path d="M20 3H5C3.346 3 2 4.346 2 6v12c0 1.654 1.346 3 3 3h15c1.103 0 2-.897 2-2v-2h-8c-1.103 0-2-.897-2-2V9c0-1.103.897-2 2-2h8V5c0-1.103-.897-2-2-2z"></path>
+                        </svg>
                         <span>Saldo</span>
                     </div>
                 </a>
             </li>
-            <li class="menu">
+            <!-- <li class="menu">
                 <a href="/wastat" aria-expanded="false" class="dropdown-toggle">
                     <div class="">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);">
@@ -66,7 +69,7 @@
                         <span>WA Monitoring</span>
                     </div>
                 </a>
-            </li>
+            </li> -->
             <li class="menu">
                 <a href="/mutasi-rekening" aria-expanded="false" class="dropdown-toggle">
                     <div class="">

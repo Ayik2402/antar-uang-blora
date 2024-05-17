@@ -69,11 +69,17 @@
         <tr class="textcenter">
             <td>
                 <p>Kami menerima permintaan untuk pengajuan
-                    pembuatan akun Aplikasi pemindah bukuan antar rekening di <b>KLIK BLORA ARTHA</b>. Berikut adalah link untuk
+                    pembuatan akun Aplikasi pemindah bukuan antar rekening di <b>KLIK BLORA ARTHA</b>. Berikut adalah link dan kode otp untuk
                     aktivasi akun anda</p>
             </td>
         </tr>
         <tr class="textcenter">
+            <td>
+                <b>KODE OTP AKTIVASI : {{$body['otpreg']}}</b>
+            </td>
+        </tr>
+
+        <tr class="textcenter" style="margin-top: 15px;">
             <td>
                 <a href="http://127.0.0.1:4444/aktivasi/{{$body['token']}}/{{$body['uuid']}}" class="tombol sendaktivasiprimary">Aktivasi akun</a>
             </td>
@@ -85,12 +91,12 @@
                     membagikan tautan ini</p>
             </td>
         </tr>
-        <tr class="textcenter">
+        <!-- <tr class="textcenter">
             <td>
                 <p>Tombol tidak berfungsi ?</p>
                 <p>Coba gunakan alternatif link dibawah ini</p>
             </td>
-        </tr>
+        </tr> -->
     </table>
 </body>
 

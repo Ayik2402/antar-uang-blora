@@ -127,24 +127,24 @@ class HomeController extends Controller
         if (!$request->end) {
             $data['end'] = Carbon::now()->format('Y-m-d');
         }
-        $data['tfsesama'] = DB::table('public.transfer_antar_rekening')
-            ->leftJoin('public.data_nasabah', 'public.data_nasabah.uuid', '=', 'public.transfer_antar_rekening.nasabah_id')
-            ->whereNull('public.transfer_antar_rekening.deleted_at')
-            ->whereDate('public.transfer_antar_rekening.created_at', '>=', $data['start'])
-            ->whereDate('public.transfer_antar_rekening.created_at', '<=', $data['end'])
-            ->orderBy('public.transfer_antar_rekening.status_transaksi', 'asc')
-            // ->whereIn('public.transfer_antar_rekening.status_transaksi', [1, 2])
-            ->get(['public.transfer_antar_rekening.*', 'public.data_nasabah.nama as nasabah', 'public.data_nasabah.norek']);
-        $data['tfbnk'] = DB::table('public.transfer_antar_bank')
-            ->leftJoin('public.data_nasabah', 'public.data_nasabah.uuid', '=', 'public.transfer_antar_bank.nasabah_id')
-            ->leftJoin('master.daftar_bank', 'master.daftar_bank.uuid', '=', 'public.transfer_antar_bank.bank_id')
-            ->whereNull('public.transfer_antar_bank.deleted_at')
-            ->whereDate('public.transfer_antar_bank.created_at', '>=', $data['start'])
-            ->whereDate('public.transfer_antar_bank.created_at', '<=', $data['end'])
-            ->orderBy('public.transfer_antar_bank.status_transaksi', 'asc')
+        $data['tfsesama'] = DB::table('transfer_antar_rekening')
+            ->leftJoin('data_nasabah', 'data_nasabah.uuid', '=', 'transfer_antar_rekening.nasabah_id')
+            ->whereNull('transfer_antar_rekening.deleted_at')
+            ->whereDate('transfer_antar_rekening.created_at', '>=', $data['start'])
+            ->whereDate('transfer_antar_rekening.created_at', '<=', $data['end'])
+            ->orderBy('transfer_antar_rekening.status_transaksi', 'asc')
+            // ->whereIn('transfer_antar_rekening.status_transaksi', [1, 2])
+            ->get(['transfer_antar_rekening.*', 'data_nasabah.nama as nasabah', 'data_nasabah.norek']);
+        $data['tfbnk'] = DB::table('transfer_antar_bank')
+            ->leftJoin('data_nasabah', 'data_nasabah.uuid', '=', 'transfer_antar_bank.nasabah_id')
+            ->leftJoin('daftar_bank', 'daftar_bank.uuid', '=', 'transfer_antar_bank.bank_id')
+            ->whereNull('transfer_antar_bank.deleted_at')
+            ->whereDate('transfer_antar_bank.created_at', '>=', $data['start'])
+            ->whereDate('transfer_antar_bank.created_at', '<=', $data['end'])
+            ->orderBy('transfer_antar_bank.status_transaksi', 'asc')
 
-            // ->whereIn('public.transfer_antar_bank.status_transaksi', [1, 2])
-            ->get(['public.transfer_antar_bank.*', 'public.data_nasabah.nama as nasabah', 'master.daftar_bank.bank', 'public.data_nasabah.norek']);
+            // ->whereIn('transfer_antar_bank.status_transaksi', [1, 2])
+            ->get(['transfer_antar_bank.*', 'data_nasabah.nama as nasabah', 'daftar_bank.bank', 'data_nasabah.norek']);
 
 
 
@@ -236,14 +236,14 @@ class HomeController extends Controller
         $totaltfsesama = [];
         $totaltfantarbank = [];
         for ($i = 1; $i < 13; $i++) {
-            $xx = DB::table('public.transfer_antar_rekening')
+            $xx = DB::table('transfer_antar_rekening')
                 ->whereNull('deleted_at')
                 ->whereMonth('created_at', $i)
                 ->whereYear('created_at', $year)
                 ->sum(DB::raw('nominal'));
             array_push($totaltfsesama, intval($xx));
 
-            $xxs = DB::table('public.transfer_antar_bank')
+            $xxs = DB::table('transfer_antar_bank')
                 ->whereNull('deleted_at')
                 ->whereMonth('created_at', $i)
                 ->whereYear('created_at', $year)
@@ -251,38 +251,38 @@ class HomeController extends Controller
             array_push($totaltfantarbank, intval($xxs));
         }
 
-        $pdtfss = DB::table('public.transfer_antar_rekening')
+        $pdtfss = DB::table('transfer_antar_rekening')
             ->whereNull('deleted_at')
             ->where('status_transaksi', 1)
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', $year)
             ->count();
-        $sktfss = DB::table('public.transfer_antar_rekening')
+        $sktfss = DB::table('transfer_antar_rekening')
             ->whereNull('deleted_at')
             ->where('status_transaksi', 2)
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', $year)
             ->count();
-        $btltfss = DB::table('public.transfer_antar_rekening')
+        $btltfss = DB::table('transfer_antar_rekening')
             ->whereNull('deleted_at')
             ->where('status_transaksi', 3)
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', $year)
             ->count();
 
-        $pdatfab = DB::table('public.transfer_antar_bank')
+        $pdatfab = DB::table('transfer_antar_bank')
             ->whereNull('deleted_at')
             ->where('status_transaksi', 1)
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', $year)
             ->count();
-        $skatfab = DB::table('public.transfer_antar_bank')
+        $skatfab = DB::table('transfer_antar_bank')
             ->whereNull('deleted_at')
             ->where('status_transaksi', 2)
             ->whereMonth('created_at', Carbon::now()->month)
             ->whereYear('created_at', $year)
             ->count();
-        $btlatfab = DB::table('public.transfer_antar_bank')
+        $btlatfab = DB::table('transfer_antar_bank')
             ->whereNull('deleted_at')
             ->where('status_transaksi', 3)
             ->whereMonth('created_at', Carbon::now()->month)

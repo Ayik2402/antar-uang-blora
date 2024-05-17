@@ -12,10 +12,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('public.mutasi_rekening', function (Blueprint $table) {
+        Schema::create('mutasi_rekening', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
-            $table->foreignUuid('nasabah_id')->references('uuid')->on('public.data_nasabah')->onDelete('cascade');
+            $table->foreignUuid('nasabah_id')->references('uuid')->on('data_nasabah')->onDelete('cascade');
             $table->date('tanggal');
             $table->string('kode');
             $table->text('keterangan');
@@ -26,9 +26,9 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        DB::statement(
-            'ALTER TABLE public.mutasi_rekening ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
-        );
+        // DB::statement(
+        //     'ALTER TABLE public.mutasi_rekening ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
+        // );
     }
 
     /**
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('public.mutasi_rekening');
+        Schema::dropIfExists('mutasi_rekening');
     }
 };

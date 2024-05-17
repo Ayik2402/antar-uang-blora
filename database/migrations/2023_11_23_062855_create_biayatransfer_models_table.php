@@ -12,16 +12,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('master.biaya_transfer', function (Blueprint $table) {
+        Schema::create('biaya_transfer', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
             $table->double('nominal')->default(0);
             $table->timestamps();
             $table->softDeletes();
         });
-        DB::statement(
-            'ALTER TABLE master.biaya_transfer ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
-        );
+        // DB::statement(
+        //     'ALTER TABLE master.biaya_transfer ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
+        // );
     }
 
     /**
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('master.biaya_transfer');
+        Schema::dropIfExists('biaya_transfer');
     }
 };

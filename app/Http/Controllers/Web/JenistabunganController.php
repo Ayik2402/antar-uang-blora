@@ -7,6 +7,7 @@ use App\Models\Master\JenistabunganModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 class JenistabunganController extends Controller
 {
@@ -58,6 +59,7 @@ class JenistabunganController extends Controller
             'uuid' => $request->uuid,
         ], [
             'nama' => $request->tabungan,
+            'uuid' => Str::uuid(),
         ]);
 
         return response()->json([

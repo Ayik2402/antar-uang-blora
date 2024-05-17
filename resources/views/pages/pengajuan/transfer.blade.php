@@ -128,6 +128,10 @@
 
 <script>
     function updatetransaksi(uuid, type, status) {
+        var text = 'Ya, batalkan transaksi!';
+        if (status == 2) {
+            text = 'Ya, selesaikan transaksi!'
+        }
         swal.fire({
                 title: 'Apakah anda yakin ingin?',
                 text: "Anda tidak akan dapat mengembalikan ini!",
@@ -135,7 +139,7 @@
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Ya, batalkan transaksi!'
+                confirmButtonText: text
             })
             .then((result) => {
                 if (result.isConfirmed) {

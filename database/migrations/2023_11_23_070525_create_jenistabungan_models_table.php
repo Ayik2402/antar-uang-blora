@@ -12,7 +12,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('master.jenis_tabungan', function (Blueprint $table) {
+        Schema::create('jenis_tabungan', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique();
             $table->string('nama');
@@ -21,9 +21,9 @@ return new class extends Migration
             $table->softDeletes();
         });
 
-        DB::statement(
-            'ALTER TABLE master.jenis_tabungan ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
-        );
+        // DB::statement(
+        //     'ALTER TABLE master.jenis_tabungan ALTER COLUMN uuid SET DEFAULT uuid_generate_v4();'
+        // );
     }
 
     /**
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('master.jenis_tabungan');
+        Schema::dropIfExists('jenis_tabungan');
     }
 };

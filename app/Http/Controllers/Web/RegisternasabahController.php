@@ -21,8 +21,8 @@ class RegisternasabahController extends Controller
      */
     public function index()
     {
-        $data['nasabah'] = NasabahModel::leftJoin('master.jenis_tabungan', 'master.jenis_tabungan.uuid', '=', 'public.data_nasabah.tabungan_id')
-            ->get(['master.jenis_tabungan.nama as tabungan', 'public.data_nasabah.*']);
+        $data['nasabah'] = NasabahModel::leftJoin('jenis_tabungan', 'jenis_tabungan.uuid', '=', 'data_nasabah.tabungan_id')
+            ->get(['jenis_tabungan.nama as tabungan', 'data_nasabah.*']);
         // return $data;
         return view('pages.register.register', $data);
     }
@@ -63,6 +63,7 @@ class RegisternasabahController extends Controller
         NasabahModel::updateOrCreate([
             'uuid' => $request->uuid,
         ], [
+            'uuid' => Str::uuid(),
             'tabungan_id' => $request->jenis_tabungan,
             'norek' => $request->nomor_rekening,
             'nama' => $request->nama,
@@ -84,9 +85,9 @@ class RegisternasabahController extends Controller
      */
     public function show(string $id)
     {
-        return NasabahModel::leftJoin('master.jenis_tabungan', 'master.jenis_tabungan.uuid', '=', 'public.data_nasabah.tabungan_id')
-            ->where('public.data_nasabah.uuid', $id)
-            ->first(['master.jenis_tabungan.nama as tabungan', 'public.data_nasabah.*']);
+        return NasabahModel::leftJoin('jenis_tabungan', 'jenis_tabungan.uuid', '=', 'data_nasabah.tabungan_id')
+            ->where('data_nasabah.uuid', $id)
+            ->first(['jenis_tabungan.nama as tabungan', 'data_nasabah.*']);
     }
 
     /**
@@ -118,16 +119,28 @@ class RegisternasabahController extends Controller
     public function kirimemailsekarang($id)
     {
         $nasabah = NasabahModel::where('uuid', $id)->get();
+        $otp = str_pad(random_int(193, 971359), 6, "0", STR_PAD_LEFT);
         $token = Str::random(255);
         $hashtoken = Hash::make($token);
         foreach ($nasabah as $key => $value) {
             $value->token = $token;
+            $value->otpreg = $otp;
         }
+
+        $hingga = Carbon::now()->addMinutes(env('OTP_ACTIVE', 180));
+
+        NasabahModel::where('uuid', $id)->update([
+            'otp_verifikasi' => Hash::make($otp),
+            'otp_verifikasi_hingga' => $hingga->format('Y-m-d H:i:s'),
+        ]);
+
+        // return $nasabah;
         try {
             Mail::to($nasabah[0]->email)->send(new AktivasiMail($nasabah[0]));
             TokenSendEmailModel::create([
                 'nasabah_id' => $nasabah[0]->uuid,
                 'token' => $hashtoken,
+                'uuid' => Str::uuid(),
                 'hingga' => Carbon::now()->addDay()
             ]);
 

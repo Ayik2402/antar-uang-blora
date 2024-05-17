@@ -8,6 +8,7 @@ use App\Models\Public\MutasirekeningModel;
 use App\Models\Public\NasabahModel;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 
 class MutasirekeningController extends Controller
 {
@@ -59,6 +60,7 @@ class MutasirekeningController extends Controller
                                 'kredit' => $val[4],
                                 'saldo' => $val[5],
                                 'keterangan' => $val[6],
+                                'uuid' => Str::uuid()
                             ]);
                         } else {
                             return redirect('/mutasi-rekening')->with('info', 'Nomor rekening nasabah tidak ditemukan');
