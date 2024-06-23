@@ -91,6 +91,8 @@
                                     <td>
                                         @if($value->status_transaksi == 1)
                                         <span class="badge badge-warning text-uppercase">pending</span>
+                                        @elseif($value->status_transaksi == 3)
+                                        <span class="badge badge-danger text-uppercase">batal</span>
                                         @else
                                         <span class="badge badge-success text-uppercase">sukses</span>
                                         @endif

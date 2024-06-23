@@ -20,6 +20,7 @@
                         Tambah
                     </button>
 
+                    <button type="button   " class="btn btn-primary btn-sm">Import data nasabah</button>
                     <!-- Modal -->
                     <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
                         <div class="modal-dialog modal-xl" role="document">
@@ -254,7 +255,7 @@
 
     function numberphone() {
         var nominal = $('#hp').val().replace(/\D/g, "");
-        if (nominal[0]=='0') {
+        if (nominal[0] == '0') {
             nominal = nominal.substring(1);
         }
         $('#hp').val(nominal);

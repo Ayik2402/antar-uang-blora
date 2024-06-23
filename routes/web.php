@@ -8,6 +8,7 @@ use App\Http\Controllers\Web\DaftarRekeningBankController;
 use App\Http\Controllers\Web\JenistabunganController;
 use App\Http\Controllers\Web\MutasirekeningController;
 use App\Http\Controllers\Web\PengajuantransferController;
+use App\Http\Controllers\Web\PermohonanRekeningTransferController;
 use App\Http\Controllers\Web\RegisternasabahController;
 use App\Http\Controllers\Web\SaldaoNasabahController;
 use App\Http\Controllers\Web\SettingwebController;
@@ -59,4 +60,6 @@ Route::middleware('auth')->group(function () {
     Route::get('/statcheck', [App\Http\Controllers\HomeController::class, 'getwacntstat']);
     Route::get('/sendmsg', [App\Http\Controllers\HomeController::class, 'sendmessage']);
     Route::get('/linechart', [App\Http\Controllers\HomeController::class, 'chattlinedashboard']);
+    Route::resource('permohonan-rekening-transfer', PermohonanRekeningTransferController::class);
+    Route::get('/terimarekening/{id}/{status}', [PermohonanRekeningTransferController::class, 'terimastatus']);
 });
